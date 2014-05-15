@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
+require 'rubygems'
+require 'bundler/setup'
+ 
+require 'time_teller'
+
+TimeTeller.new(ARGV).run
+
