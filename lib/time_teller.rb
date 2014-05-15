@@ -16,17 +16,21 @@ class TimeTeller
       @synth = :espeak
     else
       @voice = opts.fetch("--voice", 'Vicki')
+      @voice = voices.sample if opts["--random"]
       unless voices.include?(@voice)
         raise TimeTellerError.new "Voice not available: #{@voice}"
       end
     end
-    if opts["--random"]
-      @action = :random
-      @value = opts["--random"].to_i
+    if opts["--chance"]
+      @action = :chance
+      @value = opts["--chance"].to_i
     end
     if opts["--sleep"]
       @action = :sleep
       @value = opts["--sleep"].to_i
+    end
+    if opts["--voices"]
+      @action = :voices
     end
   end
 
@@ -56,7 +60,7 @@ class TimeTeller
     send(method)
   end
 
-  def random_action
+  def chance_action
     #puts "Randomizing: #{random}"
     tell_time if randomize == 0
   end
@@ -65,6 +69,10 @@ class TimeTeller
     #puts "Sleeping #{random}s"
     sleep randomize
     tell_time
+  end
+
+  def voices_action
+    puts "Available voices: #{voices.join ', '}"
   end
 
   def default_action
