@@ -42,11 +42,8 @@ time.
 TODO
 ----
 
- * Better option parsing, support args without action
- * Add support for espeak
  * Use ruby wrappers intead of using shell
  * Write tests
- * Create github repo
  * Push to rubygems
  * Make a daemon which tells time randomly.
  * Wrapper script which sets up ruby version/gemset

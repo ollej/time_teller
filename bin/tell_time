@@ -14,15 +14,23 @@ Usage: #{__FILE__} [options]
 
   --random CHANCE   Only speak 1 in chance times.
   --sleep SECONDS   Sleep up to X seconds before speaking.
-  --espeak          Use espeak to tell time.
-  -h | --help
+  --espeak          Use espeak to tell time instead of Macs say command.
+  --voice VOICE     Use VOICE name (for Mac say command) [default: Vicki]
+  -h, --help        Print this help message.
 DOCOPT
 
 begin
   opts = Docopt::docopt(doc)
   #puts opts.inspect
-  TimeTeller.new(opts).run
 rescue Docopt::Exit => e
-  puts e.message
+  $stderr.puts e.message
+  exit 1
+end
+
+begin
+  TimeTeller.new(opts).run
+rescue TimeTellerError => e
+  $stderr.puts e.message
+  exit 2
 end
 

@@ -12,7 +12,14 @@ class TimeTeller
   end
 
   def parse(opts)
-    @synth = :espeak if opts["--espeak"]
+    if opts["--espeak"]
+      @synth = :espeak
+    else
+      @voice = opts.fetch("--voice", 'Vicki')
+      unless voices.include?(@voice)
+        raise TimeTellerError.new "Voice not available: #{@voice}"
+      end
+    end
     if opts["--random"]
       @action = :random
       @value = opts["--random"].to_i
@@ -21,6 +28,10 @@ class TimeTeller
       @action = :sleep
       @value = opts["--sleep"].to_i
     end
+  end
+
+  def voices
+    @voices ||= %x(say --voice ? | awk '{print $1;}').split
   end
 
   def time
@@ -72,7 +83,9 @@ class TimeTeller
   end
 
   def mac_synth
-    "say '#{time}'"
+    args = []
+    args << "--voice #{@voice}" unless @voice.nil?
+    "say '#{time}' #{args.join ' '}"
   end
 
 end
