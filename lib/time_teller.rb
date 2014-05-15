@@ -7,10 +7,12 @@ class TimeTellerError < StandardError; end
 class TimeTeller
   def initialize(opts = {})
     @action = :default
+    @synth = :mac
     parse(opts)
   end
 
   def parse(opts)
+    @synth = :espeak if opts["--espeak"]
     if opts["--random"]
       @action = :random
       @value = opts["--random"].to_i
@@ -27,17 +29,20 @@ class TimeTeller
     time
   end
 
-  def command
-    "say '#{time}' #{@args}"
-  end
-
   def tell_time
-    #puts "Running command: #{command}"
-    %x(#{command})
+    #puts "Running command: #{synth_command}"
+    %x(#{synth_command})
   end
 
   def randomize
     Random.new.rand(@value) unless @value.nil?
+  end
+
+  # TODO: Refactor into class
+  def run
+    method = "#{@action}_action".to_sym
+    raise TimeTellerError.new "Action not available: #{@action}" unless respond_to?(method)
+    send(method)
   end
 
   def random_action
@@ -55,11 +60,21 @@ class TimeTeller
     tell_time
   end
 
-  def run
-    method = "#{@action}_action".to_sym
-    raise TimeTellerError.new "Action not available: #{@action}" unless respond_to?(method)
+  # TODO: Refactor into class
+  def synth_command
+    method = "#{@synth}_synth".to_sym
+    raise TimeTellerError.new "Synth not available: #{@synth}" unless respond_to?(method)
     send(method)
   end
+
+  def espeak_synth
+    "speak '#{time}'"
+  end
+
+  def mac_synth
+    "say '#{time}'"
+  end
+
 end
 
 if __FILE__ == $0

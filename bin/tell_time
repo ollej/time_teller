@@ -13,7 +13,8 @@ Speak the current time.
 Usage: #{__FILE__} [options]
 
   --random CHANCE   Only speak 1 in chance times.
-  --sleep SECONDS   Sleep X seconds before speaking.
+  --sleep SECONDS   Sleep up to X seconds before speaking.
+  --espeak          Use espeak to tell time.
   -h | --help
 DOCOPT
 
