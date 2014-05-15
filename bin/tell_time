@@ -3,8 +3,25 @@
 $LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
 require 'rubygems'
 require 'bundler/setup'
- 
-require 'time_teller'
 
-TimeTeller.new(ARGV).run
+require 'time_teller'
+require 'docopt'
+
+doc = <<DOCOPT
+Speak the current time.
+
+Usage: #{__FILE__} [options]
+
+  --random CHANCE   Only speak 1 in chance times.
+  --sleep SECONDS   Sleep X seconds before speaking.
+  -h | --help
+DOCOPT
+
+begin
+  opts = Docopt::docopt(doc)
+  #puts opts.inspect
+  TimeTeller.new(opts).run
+rescue Docopt::Exit => e
+  puts e.message
+end
 

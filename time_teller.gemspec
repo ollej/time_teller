@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.files       = ["lib/time_teller.rb"]
   s.executables << 'tell_time'
   s.add_dependency 'fuzzy_time', '~> 1.1'
+  s.add_dependency 'docopt', '~> 0.5'
   s.add_development_dependency 'rspec', '~> 2.14'
   s.homepage    =
     'http://rubygems.org/gems/time_teller'

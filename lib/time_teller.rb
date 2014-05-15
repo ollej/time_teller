@@ -2,18 +2,23 @@
 
 require 'fuzzy_time'
 
+class TimeTellerError < StandardError; end
+
 class TimeTeller
-  def initialize(args = [])
+  def initialize(opts = {})
     @action = :default
-    parse(args)
+    parse(opts)
   end
 
-  def parse(args)
-    return unless args.size > 0
-    @action = args.shift.to_sym
-    @value = args.shift.to_i if args.size > 0
-    @args = args.join ' ' if args.size > 0
-    #puts "action: #{@action} value: #{@value}"
+  def parse(opts)
+    if opts["--random"]
+      @action = :random
+      @value = opts["--random"].to_i
+    end
+    if opts["--sleep"]
+      @action = :sleep
+      @value = opts["--sleep"].to_i
+    end
   end
 
   def time
