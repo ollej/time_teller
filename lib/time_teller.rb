@@ -14,12 +14,13 @@ class TimeTeller
   def parse(opts)
     if opts["--espeak"]
       @synth = :espeak
+      @voice = opts["--voice"] || 'english'
     else
-      @voice = opts.fetch("--voice", 'Vicki')
-      @voice = voices.sample if opts["--random"]
-      unless voices.include?(@voice)
-        raise TimeTellerError.new "Voice not available: #{@voice}"
-      end
+      @voice = opts["--voice"] || 'Vicki'
+    end
+    @voice = voices.sample if opts["--random"]
+    unless voices.include?(@voice)
+      raise TimeTellerError.new "Voice not available: #{@voice}"
     end
     if opts["--chance"]
       @action = :chance
@@ -35,7 +36,11 @@ class TimeTeller
   end
 
   def voices
-    @voices ||= %x(say --voice ? | awk '{print $1;}').split
+    @voices ||= if @synth == :espeak
+        %x(speak --voices=en | tail -n +2 | sed 's/^ *//' | tr -s ' '| cut -d ' ' -f 4).split
+      else
+        %x(say --voice ? | awk '{print $1;}').split
+      end
   end
 
   def time
@@ -47,6 +52,10 @@ class TimeTeller
   def tell_time
     #puts "Running command: #{synth_command}"
     %x(#{synth_command})
+  end
+
+  def formatted_time
+    "It is #{time}."
   end
 
   def randomize
@@ -87,13 +96,16 @@ class TimeTeller
   end
 
   def espeak_synth
-    "speak '#{time}'"
+    args = []
+    args << "-v #{@voice}" unless @voice.nil?
+    #puts "voice: #{@voice}"
+    "speak '#{formatted_time}' #{args.join ' '}"
   end
 
   def mac_synth
     args = []
     args << "--voice #{@voice}" unless @voice.nil?
-    "say '#{time}' #{args.join ' '}"
+    "say '#{formatted_time}' #{args.join ' '}"
   end
 
 end

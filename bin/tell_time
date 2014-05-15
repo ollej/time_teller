@@ -15,7 +15,7 @@ Usage: #{__FILE__} [options]
   --chance CHANCE   1 in CHANCE times chance that time is spoken.
   --sleep SECONDS   Sleep up to X seconds before speaking.
   --espeak          Use espeak to tell time instead of Macs say command.
-  --voice VOICE     Use VOICE name (for Mac say command) [default: Vicki]
+  --voice VOICE     Use VOICE name (for Mac say command)
   --random          Use a random voice (for Mac say command)
   --voices          Print available voices (for Mac say command)
   -h, --help        Print this help message.

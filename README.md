@@ -47,4 +47,3 @@ TODO
  * Push to rubygems
  * Make a daemon which tells time randomly.
  * Wrapper script which sets up ruby version/gemset
- * Randomize voice
