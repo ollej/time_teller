@@ -5,7 +5,7 @@ require 'bundler/version'
 
 Gem::Specification.new do |s|
   s.name        = 'time_teller'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.date        = '2014-05-15'
   s.summary     = "Tell time"
   s.description = "Speaks the time in English."
