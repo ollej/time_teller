@@ -13,7 +13,7 @@ Usage
 Tells the time immediately.
 
 ```bash
-  $ ruby tell_time.rb
+  $ bin/tell_time
 ```
 
 ### Sleep
@@ -21,22 +21,47 @@ Tells the time immediately.
 Sleep between 1-60 seconds before speaking the time.
 
 ```bash
-  $ ruby tell_time.rb sleep 60
+  $ bin/tell_time.rb --sleep=60
 ```
 
-### Random
+### Chance
 
 A 1 in X chance that time is told, otherwise nothing happens.
 
 ```bash
-  $ ruby tell_time random 6
+  $ bin/tell_time --chance=6
 ```
+
+### Espeak
+
+Use espeak to synthesize voice instead of the Mac OS X Say command.
+
+```bash
+  $ bin/tell_time --espeak
+```
+
+### Voice
+
+Set the voice to use.
+
+```bash
+  $ bin/tell_time --voice=Albert
+```
+
+### Voices
+
+Show list of available voices.
+
+```bash
+  $ bin/tell_time --voices
+```
+
 
 TimeTeller class
 ----------------
 
 The script includes a class that can be used in other code. Create a sub-class
-and implement the `command` method to change the shell command to speak the
+and implement the `synth_command` method to change the shell command to speak the
 time.
 
 TODO
@@ -47,3 +72,6 @@ TODO
  * Push to rubygems
  * Make a daemon which tells time randomly.
  * Wrapper script which sets up ruby version/gemset
+ * Change --espeak to --synth which defaults to mac
+ * Change random/sleep to action, to make it easier to add more.
+ * Refactor docopt code into class
