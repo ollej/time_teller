@@ -5,6 +5,25 @@ A small class to tell time. Can be used as a command line script or included
 as a class. Supports sleeping a random number of seconds before telling the
 time, as well as only telling the time with a randomized chance.
 
+Requirements
+------------
+
+You need either a Mac with the say command, or the eSpeak command:
+http://espeak.sourceforge.net/
+
+Install
+-------
+
+```bash
+  $ gem install time_teller
+```
+
+To have the time spoken randomly once an hour every weekday, add this to your crontab:
+
+```
+0 * * * 1-5 tell_time --espeak --sleep=3600
+```
+
 Usage
 -----
 
@@ -13,7 +32,7 @@ Usage
 Tells the time immediately.
 
 ```bash
-  $ bin/tell_time
+  $ tell_time
 ```
 
 ### Sleep
@@ -21,7 +40,7 @@ Tells the time immediately.
 Sleep between 1-60 seconds before speaking the time.
 
 ```bash
-  $ bin/tell_time.rb --sleep=60
+  $ tell_time --sleep=60
 ```
 
 ### Chance
@@ -29,7 +48,7 @@ Sleep between 1-60 seconds before speaking the time.
 A 1 in X chance that time is told, otherwise nothing happens.
 
 ```bash
-  $ bin/tell_time --chance=6
+  $ tell_time --chance=6
 ```
 
 ### Espeak
@@ -37,7 +56,7 @@ A 1 in X chance that time is told, otherwise nothing happens.
 Use espeak to synthesize voice instead of the Mac OS X Say command.
 
 ```bash
-  $ bin/tell_time --espeak
+  $ tell_time --espeak
 ```
 
 ### Voice
@@ -45,7 +64,7 @@ Use espeak to synthesize voice instead of the Mac OS X Say command.
 Set the voice to use.
 
 ```bash
-  $ bin/tell_time --voice=Albert
+  $ tell_time --voice=Albert
 ```
 
 ### Voices
@@ -53,7 +72,7 @@ Set the voice to use.
 Show list of available voices.
 
 ```bash
-  $ bin/tell_time --voices
+  $ tell_time --voices
 ```
 
 
@@ -75,3 +94,5 @@ TODO
  * Change --espeak to --synth which defaults to mac
  * Change random/sleep to action, to make it easier to add more.
  * Refactor docopt code into class
+ * Add --verbose flag
+ * Add log support
