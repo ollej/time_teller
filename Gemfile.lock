@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    time_teller (0.0.1)
+    time_teller (0.0.2)
       docopt (~> 0.5)
       fuzzy_time (~> 1.1)
 
