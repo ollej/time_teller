@@ -37,7 +37,7 @@ class TimeTeller
 
   def voices
     @voices ||= if @synth == :espeak
-        %x(speak --voices=en | tail -n +2 | sed 's/^ *//' | tr -s ' '| cut -d ' ' -f 4).split
+        %x(espeak --voices=en | tail -n +2 | sed 's/^ *//' | tr -s ' '| cut -d ' ' -f 4).split
       else
         %x(say --voice ? | awk '{print $1;}').split
       end
@@ -99,7 +99,7 @@ class TimeTeller
     args = []
     args << "-v #{@voice}" unless @voice.nil?
     #puts "voice: #{@voice}"
-    "speak '#{formatted_time}' #{args.join ' '}"
+    "espeak '#{formatted_time}' #{args.join ' '}"
   end
 
   def mac_synth
