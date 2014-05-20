@@ -21,7 +21,7 @@ Install
 To have the time spoken randomly once an hour every weekday, add this to your crontab:
 
 ```
-0 * * * 1-5 tell_time --espeak --sleep=3600
+0 * * * 1-5 tell_time --synth=espeak --sleep=3600
 ```
 
 Usage
@@ -51,12 +51,12 @@ A 1 in X chance that time is told, otherwise nothing happens.
   $ tell_time --chance=6
 ```
 
-### Espeak
+### Synth
 
-Use espeak to synthesize voice instead of the Mac OS X Say command.
+Set `--synth` to espeak to synthesize voice instead of the Mac OS X Say command.
 
 ```bash
-  $ tell_time --espeak
+  $ tell_time --synth espeak
 ```
 
 ### Voice
@@ -91,7 +91,6 @@ TODO
  * Push to rubygems
  * Make a daemon which tells time randomly.
  * Wrapper script which sets up ruby version/gemset
- * Change --espeak to --synth which defaults to mac
  * Change random/sleep to action, to make it easier to add more.
  * Refactor docopt code into class
  * Add --verbose flag
