@@ -12,9 +12,11 @@ class TimeTeller
   end
 
   def parse(opts)
+    @voice = opts["--voice"] || 'english'
     if opts["--espeak"]
       @synth = :espeak
-      @voice = opts["--voice"] || 'english'
+    elsif opts["--aplay"]
+      @synth = :aplay
     else
       @voice = opts["--voice"] || 'Vicki'
     end
@@ -36,8 +38,8 @@ class TimeTeller
   end
 
   def voices
-    @voices ||= if @synth == :espeak
-        %x(speak --voices=en | tail -n +2 | sed 's/^ *//' | tr -s ' '| cut -d ' ' -f 4).split
+    @voices ||= if [:espeak, :aplay].include? @synth
+        %x(espeak --voices=en | tail -n +2 | sed 's/^ *//' | tr -s ' '| cut -d ' ' -f 4).split
       else
         %x(say --voice ? | awk '{print $1;}').split
       end
@@ -95,11 +97,18 @@ class TimeTeller
     send(method)
   end
 
+  def aplay_synth
+    args = []
+    args << "-v #{@voice}" unless @voice.nil?
+    #puts "voice: #{@voice}"
+    "espeak '#{formatted_time}' #{args.join ' '} --stdout 2>/dev/null | aplay -q -D 'default'"
+  end
+
   def espeak_synth
     args = []
     args << "-v #{@voice}" unless @voice.nil?
     #puts "voice: #{@voice}"
-    "speak '#{formatted_time}' #{args.join ' '}"
+    "espeak '#{formatted_time}' #{args.join ' '}"
   end
 
   def mac_synth
