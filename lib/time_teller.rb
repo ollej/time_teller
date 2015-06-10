@@ -13,9 +13,9 @@ class TimeTeller
 
   def parse(opts)
     @voice = opts["--voice"] || 'english'
-    if opts["--espeak"]
+    if opts["--synth"] == 'espeak'
       @synth = :espeak
-    elsif opts["--aplay"]
+    elsif opts["--synth"] == 'aplay'
       @synth = :aplay
     else
       @voice = opts["--voice"] || 'Vicki'
